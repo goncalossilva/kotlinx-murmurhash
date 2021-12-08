@@ -4,6 +4,8 @@ import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 plugins {
     kotlin("multiplatform") version "1.6.0"
 
+    id("com.goncalossilva.resources") version "0.2.0"
+
     id("maven-publish")
     id("signing")
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
