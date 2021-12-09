@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 plugins {
     kotlin("multiplatform") version "1.6.0"
 
-    id("com.goncalossilva.resources") version "0.2.0"
+    id("com.goncalossilva.resources") version "0.2.1"
 
     id("maven-publish")
     id("signing")
@@ -69,7 +69,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("com.goncalossilva:resources:0.2.0")
+                implementation("com.goncalossilva:resources:0.2.1")
             }
         }
 

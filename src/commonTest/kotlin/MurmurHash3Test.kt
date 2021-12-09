@@ -1,4 +1,6 @@
-import com.goncalossilva.murmurhash.MurmurHash3
+package com.goncalossilva.murmurhash
+
+import com.goncalossilva.resources.Resource
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
