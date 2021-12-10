@@ -4,6 +4,12 @@ Notable changes are documented in this file, whose format follows [Keep a Change
 
 ## [Unreleased]
 
+## [0.2.0] - 2021-12-11
+
+### Added
+
+- Support for MurmurHash3's 128-bit x64 version.
+
 ## [0.1.0] - 2021-12-10
 
 ### Added
