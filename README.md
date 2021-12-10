@@ -40,12 +40,9 @@ MurmurHash3().hash32x86(string.encodeToByteArray())
 
 ## Contributing
 
-This library is incomplete. It lacks:
-- **MurmurHash3's 128-bit versions**
-- MurmurHash2
-- MurmurHash1
+Pull requests are welcome! See [MurmurHash3Test](src/commonTest/kotlin/MurmurHash3Test.kt) for an example of how to leverage hashes computed by the canonical C++ implementation for testing.
 
-Pull requests that add missing implementations will be accepted! See [MurmurHash3Test](src/commonTest/kotlin/MurmurHash3Test.kt) for an example of how to leverage hashes computed by the canonical C++ implementation for testing. I can generate hashes for new versions, if necessary.
+Feel free to contribute earlier versions, such as MurmurHash2 and MurmurHash1.  
 
 ## Acknowledgements
 

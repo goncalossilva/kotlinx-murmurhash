@@ -23,6 +23,16 @@ class MurmurHash3Test {
             .map { line -> line.toUInt() }
     }
 
+    private val results128x86: List<Array<UInt>> by lazy {
+        // Hashes computed by the canonical C++ implementation:
+        // https://github.com/aappleby/smhasher/blob/61a0530f28277f2e850bfc39600ce61d02b518de/src/MurmurHash3.cpp#L150-L251
+        Resource("src/commonTest/resources/murmurhash3-128x86.txt")
+            .readText()
+            .trim()
+            .lines()
+            .map { line -> line.split(",").map(String::toUInt).toTypedArray() }
+    }
+
     private val results128x64: List<Array<ULong>> by lazy {
         // Hashes computed by the canonical C++ implementation:
         // https://github.com/aappleby/smhasher/blob/61a0530f28277f2e850bfc39600ce61d02b518de/src/MurmurHash3.cpp#L255-L332
@@ -39,6 +49,13 @@ class MurmurHash3Test {
     fun hash32x86() {
         words.zip(results32x86).forEach { (word, hash) ->
             assertEquals(hash, murmurHash3.hash32x86(word.encodeToByteArray()), word)
+        }
+    }
+
+    @Test
+    fun hash128x86() {
+        words.zip(results128x86).forEach { (word, hash) ->
+            assertContentEquals(hash, murmurHash3.hash128x86(word.encodeToByteArray()), word)
         }
     }
 
