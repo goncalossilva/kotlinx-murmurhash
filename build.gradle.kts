@@ -52,7 +52,14 @@ kotlin {
                 }
             }
         }
-        nodejs()
+        nodejs {
+            testTask {
+               useMocha {
+                   // Disable test case timeout, bringing parity with other platforms.
+                   timeout = "0"
+               }
+            }
+        }
     }
 
     ios()
