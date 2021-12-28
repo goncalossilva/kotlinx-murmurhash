@@ -4,7 +4,6 @@ import com.goncalossilva.resources.Resource
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class MurmurHash3Test {
     private val words: List<String> by lazy {
