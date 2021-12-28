@@ -13,8 +13,8 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
 }
 
-rootProject.plugins.withType<NodeJsRootPlugin> {
-    rootProject.configure<NodeJsRootExtension> {
+plugins.withType<NodeJsRootPlugin> {
+    configure<NodeJsRootExtension> {
         nodeVersion = "16.13.1"
     }
 }
