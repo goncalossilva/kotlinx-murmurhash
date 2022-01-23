@@ -295,9 +295,9 @@ public class MurmurHash3(private val seed: UInt = 0u) {
         return h
     }
 
-    private fun ByteArray.getUInt(index: Int) = get(index).toUInt()
+    private fun ByteArray.getUInt(index: Int) = get(index).toUByte().toUInt()
 
-    private fun ByteArray.getULong(index: Int) = get(index).toULong()
+    private fun ByteArray.getULong(index: Int) = get(index).toUByte().toULong()
 
     private companion object {
         private const val C1_32: UInt = 0xcc9e2d51u
