@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 
 plugins {
-    kotlin("multiplatform") version "1.6.10"
+    kotlin("multiplatform") version "1.6.20"
 
     id("com.goncalossilva.resources") version "0.2.1"
     id("com.goncalossilva.useanybrowser") version "0.1.0"
