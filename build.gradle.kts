@@ -12,7 +12,7 @@ plugins {
     id("signing")
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
-    id("io.gitlab.arturbosch.detekt") version "1.20.0"
+    id("io.gitlab.arturbosch.detekt") version "1.21.0"
 }
 
 plugins.withType<NodeJsRootPlugin> {
