@@ -89,7 +89,6 @@ val javadocJar by tasks.registering(Jar::class) {
 // Setup publishing.
 publishing {
     // Configure all publications.
-    @Suppress("LocalVariableName")
     publications.withType<MavenPublication> {
         // Publish docs with each artifact.
         artifact(javadocJar)
