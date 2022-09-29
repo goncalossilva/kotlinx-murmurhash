@@ -17,7 +17,7 @@ plugins {
 
 plugins.withType<NodeJsRootPlugin> {
     configure<NodeJsRootExtension> {
-        nodeVersion = "16.13.1"
+        nodeVersion = "18.12.1"
     }
 }
 
@@ -142,7 +142,7 @@ nexusPublishing {
         sonatype {
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
             snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            
+
             // Read `ossrhUsername` and `ossrhPassword` properties.
             // DO NOT ADD THESE TO SOURCE CONTROL. Store them in your system properties,
             // or pass them in using ORG_GRADLE_PROJECT_* environment variables.
