@@ -28,12 +28,11 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-      - id: get_tag_version
-        run: echo "::set-output name=VERSION::${GITHUB_REF#refs/tags/v}"
+      - run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
       - run: ./gradlew assemble
       - run: ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
         env:
-          ORG_GRADLE_PROJECT_version: ${{ steps.get_tag_version.outputs.VERSION }}
+          ORG_GRADLE_PROJECT_version: ${{ env.VERSION }}
           ORG_GRADLE_PROJECT_ossrhUsername: ${{ secrets.OSSRH_USERNAME }}
           ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_SECRET_KEY }}
