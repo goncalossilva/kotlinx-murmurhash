@@ -1,6 +1,7 @@
 import com.goncalossilva.useanybrowser.useAnyBrowser
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithSimulatorTests
 
 plugins {
     kotlin("multiplatform") version "1.7.21"
@@ -59,6 +60,7 @@ kotlin {
     ios()
     watchos()
     tvos()
+    overrideAppleSimulators()
 
     mingwX64()
     macosX64()
@@ -77,6 +79,22 @@ kotlin {
         val jsTest by getting {
             dependencies {
                 implementation(npm("karma-detect-browsers", "^2.0"))
+            }
+        }
+    }
+}
+
+// https://youtrack.jetbrains.com/issue/KT-45416/Do-not-use-iPhone-8-simulator-for-Gradle-tests
+fun org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension.overrideAppleSimulators() {
+    val appleTargets = targets.withType(KotlinNativeTargetWithSimulatorTests::class.java)
+
+    appleTargets.forEach { target ->
+        when {
+            target.name.startsWith("ios") -> {
+                target.testRuns["test"].deviceId = "iPhone 14"
+            }
+            target.name.startsWith("watchos") -> {
+                target.testRuns["test"].deviceId = "Apple Watch Series 7 (45mm)"
             }
         }
     }
