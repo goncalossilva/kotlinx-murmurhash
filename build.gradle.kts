@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithSimulatorTes
 plugins {
     kotlin("multiplatform") version "1.7.21"
 
-    id("com.goncalossilva.resources") version "0.2.2"
+    id("com.goncalossilva.resources") version "0.2.4"
     id("com.goncalossilva.useanybrowser") version "0.1.1"
 
     id("maven-publish")
