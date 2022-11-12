@@ -8,7 +8,7 @@ Notable changes are documented in this file, whose format follows [Keep a Change
 
 ### Fixed
 
-- Handling of negative bytes in the input in noth MurmurHash3's 32-bit and 128-bit versions.
+- Handling of negative bytes in the input in MurmurHash3's 32-bit and 128-bit versions.
 
 ## [0.3.0] - 2021-12-11
 
