@@ -58,6 +58,7 @@ kotlin {
     }
 
     ios()
+    iosSimulatorArm64()
     watchos()
     tvos()
     overrideAppleSimulators()
