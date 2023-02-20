@@ -22,6 +22,13 @@ plugins.withType<NodeJsRootPlugin> {
     }
 }
 
+rootProject.plugins.withType<YarnPlugin> {
+    rootProject.configure<YarnRootExtension> {
+        yarnLockMismatchReport = YarnLockMismatchReport.WARNING
+        yarnLockAutoReplace = true
+    }
+}
+
 repositories {
     mavenCentral()
     gradlePluginPortal()
