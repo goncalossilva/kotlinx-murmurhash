@@ -1,7 +1,9 @@
 import com.goncalossilva.useanybrowser.useAnyBrowser
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithSimulatorTests
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 
 plugins {
     kotlin("multiplatform") version "1.8.10"
@@ -92,6 +94,10 @@ kotlin {
     }
 }
 
+// TODO: Remove when https://youtrack.jetbrains.com/issue/KT-46466 is fixed.
+val signingTasks = tasks.withType<Sign>()
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    dependsOn(signingTasks)
 }
 
 val javadocJar by tasks.registering(Jar::class) {
