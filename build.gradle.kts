@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 
 plugins {
-    kotlin("multiplatform") version "1.8.10"
+    kotlin("multiplatform") version "1.8.20"
 
     id("com.goncalossilva.resources") version "0.3.1"
     id("com.goncalossilva.useanybrowser") version "0.1.1"
