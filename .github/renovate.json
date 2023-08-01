@@ -2,5 +2,14 @@
   "extends": [
     "config:base",
     ":disableDependencyDashboard"
+  ],
+  "packageRules": [
+    {
+      "groupName": "com.goncalossilva.resources",
+      "matchPackagePrefixes": [
+        "com.goncalossilva:resources",
+        "com.goncalossilva.resources"
+      ]
+    }
   ]
 }
