@@ -9,7 +9,7 @@ plugins {
     kotlin("multiplatform") version "1.8.22"
 
     id("com.goncalossilva.resources") version "0.3.2"
-    id("com.goncalossilva.useanybrowser") version "0.1.1"
+    id("com.goncalossilva.useanybrowser") version "0.2.1"
 
     id("maven-publish")
     id("signing")
