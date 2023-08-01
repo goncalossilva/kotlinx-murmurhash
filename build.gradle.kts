@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 plugins {
     kotlin("multiplatform") version "1.8.22"
 
-    id("com.goncalossilva.resources") version "0.3.2"
+    id("com.goncalossilva.resources") version "0.4.0"
     id("com.goncalossilva.useanybrowser") version "0.2.1"
 
     id("maven-publish")
@@ -82,7 +82,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("com.goncalossilva:resources:0.3.2")
+                implementation("com.goncalossilva:resources:0.4.0")
             }
         }
 
