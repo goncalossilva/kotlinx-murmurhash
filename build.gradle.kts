@@ -25,8 +25,8 @@ plugins.withType<NodeJsRootPlugin> {
     }
 }
 
-rootProject.plugins.withType<YarnPlugin> {
-    rootProject.configure<YarnRootExtension> {
+plugins.withType<YarnPlugin> {
+    configure<YarnRootExtension> {
         version = "1.22.19"
         yarnLockMismatchReport = YarnLockMismatchReport.WARNING
         yarnLockAutoReplace = true
