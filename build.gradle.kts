@@ -1,4 +1,5 @@
 import com.goncalossilva.useanybrowser.useAnyBrowser
+import org.gradle.internal.impldep.org.bouncycastle.cms.RecipientId.password
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
@@ -6,9 +7,9 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 
 plugins {
-    kotlin("multiplatform") version "1.8.22"
+    kotlin("multiplatform") version "1.9.0"
 
-    id("com.goncalossilva.resources") version "0.3.2"
+    id("com.goncalossilva.resources") version "0.4.0"
     id("com.goncalossilva.useanybrowser") version "0.2.1"
 
     id("maven-publish")
@@ -82,13 +83,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("com.goncalossilva:resources:0.3.2")
-            }
-        }
-
-        val jsTest by getting {
-            dependencies {
-                implementation(npm("karma-detect-browsers", "^2.0"))
+                implementation("com.goncalossilva:resources:0.4.0")
             }
         }
     }
