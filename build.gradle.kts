@@ -68,6 +68,9 @@ kotlin {
         }
     }
 
+    wasmJs()
+    wasmWasi()
+
     ios()
     iosSimulatorArm64()
     watchos()
