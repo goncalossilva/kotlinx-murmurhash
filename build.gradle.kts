@@ -41,6 +41,7 @@ repositories {
 
 @OptIn(ExperimentalWasmDsl::class)
 kotlin {
+    applyDefaultHierarchyTemplate()
     explicitApi()
 
     jvm {
@@ -73,10 +74,14 @@ kotlin {
     wasmJs()
     wasmWasi()
 
-    ios()
+    iosArm64()
+    iosX64()
     iosSimulatorArm64()
-    watchos()
-    tvos()
+    watchosX64()
+    watchosArm32()
+    watchosSimulatorArm64()
+    tvosX64()
+    tvosArm64()
 
     mingwX64()
     macosX64()
