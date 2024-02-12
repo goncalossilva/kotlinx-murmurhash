@@ -1,5 +1,6 @@
 import com.goncalossilva.useanybrowser.useAnyBrowser
 import org.gradle.internal.impldep.org.bouncycastle.cms.RecipientId.password
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
@@ -38,6 +39,7 @@ repositories {
     gradlePluginPortal()
 }
 
+@OptIn(ExperimentalWasmDsl::class)
 kotlin {
     explicitApi()
 
