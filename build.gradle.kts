@@ -1,5 +1,4 @@
 import com.goncalossilva.useanybrowser.useAnyBrowser
-import org.gradle.internal.impldep.org.bouncycastle.cms.RecipientId.password
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
@@ -21,7 +20,7 @@ plugins {
 
 plugins.withType<NodeJsRootPlugin> {
     configure<NodeJsRootExtension> {
-        nodeVersion = "18.14.1"
+        nodeVersion = "20.12.0"
     }
 }
 
@@ -68,10 +67,15 @@ kotlin {
         }
     }
 
-    ios()
+    iosArm64()
+    iosX64()
     iosSimulatorArm64()
-    watchos()
-    tvos()
+    watchosArm32()
+    watchosArm64()
+    watchosSimulatorArm64()
+    tvosArm64()
+    tvosX64()
+    tvosSimulatorArm64()
 
     mingwX64()
     macosX64()
@@ -79,11 +83,13 @@ kotlin {
     linuxX64()
     linuxArm64()
 
+    applyDefaultHierarchyTemplate()
+
     sourceSets {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("com.goncalossilva:resources:0.4.0")
+                implementation("com.goncalossilva:resources:0.4.1")
             }
         }
     }
