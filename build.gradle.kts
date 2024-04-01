@@ -21,7 +21,7 @@ plugins {
 
 plugins.withType<NodeJsRootPlugin> {
     configure<NodeJsRootExtension> {
-        nodeVersion = "18.14.1"
+        nodeVersion = "20.12.0"
     }
 }
 
