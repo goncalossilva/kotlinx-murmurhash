@@ -73,8 +73,10 @@ kotlin {
     iosSimulatorArm64()
     watchosArm32()
     watchosArm64()
+    watchosSimulatorArm64()
     tvosArm64()
     tvosX64()
+    tvosSimulatorArm64()
 
     mingwX64()
     macosX64()
