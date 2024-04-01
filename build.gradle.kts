@@ -68,16 +68,21 @@ kotlin {
         }
     }
 
-    ios()
+    iosArm64()
+    iosX64()
     iosSimulatorArm64()
-    watchos()
-    tvos()
+    watchosArm32()
+    watchosArm64()
+    tvosArm64()
+    tvosX64()
 
     mingwX64()
     macosX64()
     macosArm64()
     linuxX64()
     linuxArm64()
+
+    applyDefaultHierarchyTemplate()
 
     sourceSets {
         val commonTest by getting {
