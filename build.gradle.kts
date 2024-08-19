@@ -6,10 +6,10 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 
 plugins {
-    kotlin("multiplatform") version "1.9.25"
+    kotlin("multiplatform") version "2.0.10"
 
-    id("com.goncalossilva.resources") version "0.4.2"
-    id("com.goncalossilva.useanybrowser") version "0.2.1"
+    id("com.goncalossilva.resources") version "0.9.0"
+    id("com.goncalossilva.useanybrowser") version "0.3.0"
 
     id("maven-publish")
     id("signing")
@@ -89,7 +89,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("com.goncalossilva:resources:0.4.2")
+                implementation("com.goncalossilva:resources:0.9.0")
             }
         }
     }
