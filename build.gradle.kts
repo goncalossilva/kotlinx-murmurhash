@@ -1,14 +1,14 @@
 import com.goncalossilva.useanybrowser.useAnyBrowser
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 
 plugins {
-    kotlin("multiplatform") version "2.0.21"
+    kotlin("multiplatform") version "2.1.0"
 
-    id("com.goncalossilva.resources") version "0.9.0"
+    id("com.goncalossilva.resources") version "0.10.0"
     id("com.goncalossilva.useanybrowser") version "0.3.0"
 
     id("maven-publish")
@@ -16,20 +16,6 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
 
     id("io.gitlab.arturbosch.detekt") version "1.23.7"
-}
-
-plugins.withType<NodeJsRootPlugin> {
-    configure<NodeJsRootExtension> {
-        nodeVersion = "20.12.0"
-    }
-}
-
-plugins.withType<YarnPlugin> {
-    configure<YarnRootExtension> {
-        version = "1.22.19"
-        yarnLockMismatchReport = YarnLockMismatchReport.WARNING
-        yarnLockAutoReplace = true
-    }
 }
 
 repositories {
@@ -41,11 +27,8 @@ kotlin {
     explicitApi()
 
     jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
-        }
-        testRuns["test"].executionTask.configure {
-            useJUnitPlatform()
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_1_8
         }
     }
 
@@ -89,9 +72,21 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("com.goncalossilva:resources:0.9.0")
+                implementation("com.goncalossilva:resources:0.10.0")
             }
         }
+    }
+}
+
+rootProject.configure<NodeJsRootExtension> {
+    version = "22.12.0"
+}
+
+rootProject.plugins.withType<YarnPlugin> {
+    rootProject.configure<YarnRootExtension> {
+        version = "1.22.22"
+        yarnLockMismatchReport = YarnLockMismatchReport.WARNING
+        yarnLockAutoReplace = true
     }
 }
 
