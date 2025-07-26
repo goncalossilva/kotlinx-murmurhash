@@ -4,6 +4,8 @@ Notable changes are documented in this file, whose format follows [Keep a Change
 
 ## [Unreleased]
 
+## [0.4.1] - 2025-07-26
+
 ### Added
 
 - `watchosSimulatorArm64` and `tvosSimulatorArm64` targets
