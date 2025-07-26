@@ -1,14 +1,15 @@
 import com.goncalossilva.useanybrowser.useAnyBrowser
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
-import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
-import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec
 
 plugins {
-    kotlin("multiplatform") version "2.1.21"
+    kotlin("multiplatform") version "2.2.0"
 
-    id("com.goncalossilva.resources") version "0.10.0"
+    id("com.goncalossilva.resources") version "0.10.1"
     id("com.goncalossilva.useanybrowser") version "0.4.0"
 
     id("maven-publish")
@@ -72,18 +73,20 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("com.goncalossilva:resources:0.10.0")
+                implementation("com.goncalossilva:resources:0.10.1")
             }
         }
     }
 }
 
-rootProject.configure<NodeJsRootExtension> {
-    version = "22.12.0"
+plugins.withType<NodeJsPlugin> {
+    the<NodeJsEnvSpec>().apply {
+        version = "22.17.0"
+    }
 }
 
-rootProject.plugins.withType<YarnPlugin> {
-    rootProject.configure<YarnRootExtension> {
+plugins.withType<YarnPlugin> {
+    the<YarnRootEnvSpec>().apply {
         version = "1.22.22"
         yarnLockMismatchReport = YarnLockMismatchReport.WARNING
         yarnLockAutoReplace = true
@@ -152,19 +155,10 @@ signing {
 // covering the last part of the release process to Maven Central.
 nexusPublishing {
     repositories {
+        // See https://central.sonatype.org/publish/publish-portal-ossrh-staging-api/#configuration
         sonatype {
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-
-            // Read `ossrhUsername` and `ossrhPassword` properties.
-            // DO NOT ADD THESE TO SOURCE CONTROL. Store them in your system properties,
-            // or pass them in using ORG_GRADLE_PROJECT_* environment variables.
-            val ossrhUsername: String? by project
-            val ossrhPassword: String? by project
-            val ossrhStagingProfileId: String? by project
-            username.set(ossrhUsername)
-            password.set(ossrhPassword)
-            stagingProfileId.set(ossrhStagingProfileId)
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
         }
     }
 }
