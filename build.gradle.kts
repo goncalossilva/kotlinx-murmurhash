@@ -81,7 +81,7 @@ kotlin {
 
 plugins.withType<NodeJsPlugin> {
     the<NodeJsEnvSpec>().apply {
-        version = "22.17.0"
+        version = "22.17.1"
     }
 }
 
