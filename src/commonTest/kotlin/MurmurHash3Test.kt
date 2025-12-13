@@ -155,10 +155,7 @@ class MurmurHash3Test {
          * https://github.com/sangupta/murmur/blob/592694f538a87d634418de5f849aed768a758147/src/test/resources/english/english-wordlist.txt
          */
         private val words: List<String> by lazy {
-            Resource("src/commonTest/resources/wordlist.txt")
-                .readText()
-                .trim()
-                .lines()
+            Resource("wordlist.txt").readText().trim().lines()
         }
 
         private val wordSeed = 0x7f3a21eau
@@ -168,13 +165,9 @@ class MurmurHash3Test {
          * https://github.com/aappleby/smhasher/blob/61a0530f28277f2e850bfc39600ce61d02b518de/src/MurmurHash3.cpp#L94-L146
          */
         private val wordResults32x86: List<UInt> by lazy {
-            Resource("src/commonTest/resources/murmurhash3-32x86.txt")
-                .readText()
-                .trim()
-                .lines()
-                .map { line ->
-                    line.toUInt()
-                }
+            Resource("murmurhash3-32x86.txt").readText().trim().lines().map { line ->
+                line.toUInt()
+            }
         }
 
         /**
@@ -184,15 +177,11 @@ class MurmurHash3Test {
         private val wordResults128x86: List<Array<UInt>> by lazy {
             // Hashes computed by the canonical C++ implementation:
             // https://github.com/aappleby/smhasher/blob/61a0530f28277f2e850bfc39600ce61d02b518de/src/MurmurHash3.cpp#L150-L251
-            Resource("src/commonTest/resources/murmurhash3-128x86.txt")
-                .readText()
-                .trim()
-                .lines()
-                .map { line ->
-                    line.split(",")
-                        .map(String::toUInt)
-                        .toTypedArray()
-                }
+            Resource("murmurhash3-128x86.txt").readText().trim().lines().map { line ->
+                line.split(",")
+                    .map(String::toUInt)
+                    .toTypedArray()
+            }
         }
 
         /**
@@ -200,15 +189,11 @@ class MurmurHash3Test {
          * https://github.com/aappleby/smhasher/blob/61a0530f28277f2e850bfc39600ce61d02b518de/src/MurmurHash3.cpp#L255-L332
          */
         private val wordResults128x64: List<Array<ULong>> by lazy {
-            Resource("src/commonTest/resources/murmurhash3-128x64.txt")
-                .readText()
-                .trim()
-                .lines()
-                .map { line ->
-                    line.split(",")
-                        .map(String::toULong)
-                        .toTypedArray()
-                }
+            Resource("murmurhash3-128x64.txt").readText().trim().lines().map { line ->
+                line.split(",")
+                    .map(String::toULong)
+                    .toTypedArray()
+            }
         }
 
         /**
