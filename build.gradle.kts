@@ -1,4 +1,5 @@
 import com.goncalossilva.useanybrowser.useAnyBrowser
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin
@@ -49,6 +50,18 @@ kotlin {
                }
             }
         }
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser {
+            testTask {
+                useKarma {
+                    useAnyBrowser()
+                }
+            }
+        }
+        nodejs()
     }
 
     iosArm64()

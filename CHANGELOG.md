@@ -6,6 +6,7 @@ Notable changes are documented in this file, whose format follows [Keep a Change
 
 ### Added
 
+- `wasmJs` target
 - `watchosDeviceArm64` target
 
 ## [0.4.1] - 2025-07-26

@@ -4,6 +4,7 @@
 ![badge-jvm][badge-jvm]
 ![badge-js][badge-js]
 ![badge-nodejs][badge-nodejs]
+![badge-wasm][badge-wasm]
 ![badge-android][badge-android]
 ![badge-ios][badge-ios]
 ![badge-watchos][badge-watchos]
