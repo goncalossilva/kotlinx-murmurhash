@@ -4,6 +4,8 @@ Notable changes are documented in this file, whose format follows [Keep a Change
 
 ## [Unreleased]
 
+## [0.4.2] - 2025-12-17
+
 ### Added
 
 - `wasmJs` target
