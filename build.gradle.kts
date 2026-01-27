@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec
 plugins {
     kotlin("multiplatform") version "2.3.0"
 
-    id("com.goncalossilva.resources") version "0.14.2"
+    id("com.goncalossilva.resources") version "0.14.3"
     id("com.goncalossilva.useanybrowser") version "0.5.0"
 
     id("maven-publish")
