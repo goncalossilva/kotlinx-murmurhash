@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec
 
 plugins {
-    kotlin("multiplatform") version "2.3.20"
+    kotlin("multiplatform") version "2.3.21"
 
     id("com.goncalossilva.resources") version "0.15.0"
     id("com.goncalossilva.useanybrowser") version "0.5.0"
