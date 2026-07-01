@@ -1,6 +1,40 @@
 package com.goncalossilva.murmurhash
 
 public class MurmurHash3(private val seed: UInt = 0u) {
+    /**
+     * Hashes the UTF-8 bytes of [key] without materializing an intermediate [ByteArray].
+     */
+    public fun hash32x86(key: String): UInt {
+        var h = seed
+        var len = 0
+        var blockSize = 0
+        var k = 0u
+
+        key.forEachUtf8Byte { byte ->
+            k = k xor (byte.toUInt() shl (blockSize * 8))
+            blockSize += 1
+            len += 1
+
+            if (blockSize == 4) {
+                h = h xor k.mix(R1_32, C1_32, C2_32)
+                h = h.rotateLeft(R2_32)
+                h = h * M_32 + N_32
+                blockSize = 0
+                k = 0u
+            }
+        }
+
+        if (blockSize > 0) {
+            h = h xor k.mix(R1_32, C1_32, C2_32)
+        }
+
+        h = h xor len.toUInt()
+
+        h = h.fmix()
+
+        return h
+    }
+
     public fun hash32x86(key: ByteArray): UInt {
         var h = seed
         val len = key.size
@@ -33,6 +67,101 @@ public class MurmurHash3(private val seed: UInt = 0u) {
         h = h.fmix()
 
         return h
+    }
+
+    /**
+     * Hashes the UTF-8 bytes of [key] without materializing an intermediate [ByteArray].
+     */
+    public fun hash128x86(key: String): Array<UInt> {
+        var h1 = seed
+        var h2 = seed
+        var h3 = seed
+        var h4 = seed
+        var len = 0
+        var blockSize = 0
+        var k1 = 0u
+        var k2 = 0u
+        var k3 = 0u
+        var k4 = 0u
+
+        key.forEachUtf8Byte { byte ->
+            val byteAsUInt = byte.toUInt()
+            when (blockSize) {
+                in 0..3 -> k1 = k1 xor (byteAsUInt shl (blockSize * 8))
+                in 4..7 -> k2 = k2 xor (byteAsUInt shl ((blockSize - 4) * 8))
+                in 8..11 -> k3 = k3 xor (byteAsUInt shl ((blockSize - 8) * 8))
+                else -> k4 = k4 xor (byteAsUInt shl ((blockSize - 12) * 8))
+            }
+            blockSize += 1
+            len += 1
+
+            if (blockSize == 16) {
+                h1 = h1 xor k1.mix(R1_128x86, C1_128x86, C2_128x86)
+                h1 = h1.rotateLeft(R5_128x86)
+                h1 += h2
+                h1 = h1 * M_128x86 + N1_128x86
+
+                h2 = h2 xor k2.mix(R2_128x86, C2_128x86, C3_128x86)
+                h2 = h2.rotateLeft(R3_128x86)
+                h2 += h3
+                h2 = h2 * M_128x86 + N2_128x86
+
+                h3 = h3 xor k3.mix(R3_128x86, C3_128x86, C4_128x86)
+                h3 = h3.rotateLeft(R1_128x86)
+                h3 += h4
+                h3 = h3 * M_128x86 + N3_128x86
+
+                h4 = h4 xor k4.mix(R4_128x86, C4_128x86, C1_128x86)
+                h4 = h4.rotateLeft(R6_128x86)
+                h4 += h1
+                h4 = h4 * M_128x86 + N4_128x86
+
+                blockSize = 0
+                k1 = 0u
+                k2 = 0u
+                k3 = 0u
+                k4 = 0u
+            }
+        }
+
+        if (blockSize >= 13) {
+            h4 = h4 xor k4.mix(R4_128x86, C4_128x86, C1_128x86)
+        }
+        if (blockSize >= 9) {
+            h3 = h3 xor k3.mix(R3_128x86, C3_128x86, C4_128x86)
+        }
+        if (blockSize >= 5) {
+            h2 = h2 xor k2.mix(R2_128x86, C2_128x86, C3_128x86)
+        }
+        if (blockSize >= 1) {
+            h1 = h1 xor k1.mix(R1_128x86, C1_128x86, C2_128x86)
+        }
+
+        h1 = h1 xor len.toUInt()
+        h2 = h2 xor len.toUInt()
+        h3 = h3 xor len.toUInt()
+        h4 = h4 xor len.toUInt()
+
+        h1 += h2
+        h1 += h3
+        h1 += h4
+        h2 += h1
+        h3 += h1
+        h4 += h1
+
+        h1 = h1.fmix()
+        h2 = h2.fmix()
+        h3 = h3.fmix()
+        h4 = h4.fmix()
+
+        h1 += h2
+        h1 += h3
+        h1 += h4
+        h2 += h1
+        h3 += h1
+        h4 += h1
+
+        return arrayOf(h1, h2, h3, h4)
     }
 
     public fun hash128x86(key: ByteArray): Array<UInt> {
@@ -153,6 +282,66 @@ public class MurmurHash3(private val seed: UInt = 0u) {
         return arrayOf(h1, h2, h3, h4)
     }
 
+    /**
+     * Hashes the UTF-8 bytes of [key] without materializing an intermediate [ByteArray].
+     */
+    public fun hash128x64(key: String): Array<ULong> {
+        var h1 = seed.toULong()
+        var h2 = seed.toULong()
+        var len = 0
+        var blockSize = 0
+        var k1 = 0uL
+        var k2 = 0uL
+
+        key.forEachUtf8Byte { byte ->
+            val byteAsULong = byte.toULong()
+            if (blockSize < 8) {
+                k1 = k1 xor (byteAsULong shl (blockSize * 8))
+            } else {
+                k2 = k2 xor (byteAsULong shl ((blockSize - 8) * 8))
+            }
+            blockSize += 1
+            len += 1
+
+            if (blockSize == 16) {
+                h1 = h1 xor k1.mix(R1_128x64, C1_128x64, C2_128x64)
+                h1 = h1.rotateLeft(R2_128x64)
+                h1 += h2
+                h1 = h1 * M_128x64 + N1_128x64
+
+                h2 = h2 xor k2.mix(R3_128x64, C2_128x64, C1_128x64)
+                h2 = h2.rotateLeft(R1_128x64)
+                h2 += h1
+                h2 = h2 * M_128x64 + N2_128x64
+
+                blockSize = 0
+                k1 = 0uL
+                k2 = 0uL
+            }
+        }
+
+        if (blockSize >= 9) {
+            h2 = h2 xor k2.mix(R3_128x64, C2_128x64, C1_128x64)
+        }
+        if (blockSize >= 1) {
+            h1 = h1 xor k1.mix(R1_128x64, C1_128x64, C2_128x64)
+        }
+
+        h1 = h1 xor len.toULong()
+        h2 = h2 xor len.toULong()
+
+        h1 += h2
+        h2 += h1
+
+        h1 = h1.fmix()
+        h2 = h2.fmix()
+
+        h1 += h2
+        h2 += h1
+
+        return arrayOf(h1, h2)
+    }
+
     public fun hash128x64(key: ByteArray): Array<ULong> {
         var h1 = seed.toULong()
         var h2 = seed.toULong()
@@ -239,6 +428,44 @@ public class MurmurHash3(private val seed: UInt = 0u) {
         h2 += h1
 
         return arrayOf(h1, h2)
+    }
+
+    private inline fun String.forEachUtf8Byte(action: (Int) -> Unit) {
+        var index = 0
+        while (index < length) {
+            val code = this[index].code
+            when {
+                code < 0x80 -> action(code)
+                code < 0x800 -> {
+                    action(0xc0 or (code shr 6))
+                    action(0x80 or (code and 0x3f))
+                }
+                code in 0xd800..0xdbff -> {
+                    val nextCode = if (index + 1 < length) this[index + 1].code else -1
+                    if (nextCode in 0xdc00..0xdfff) {
+                        val codePoint = 0x10000 + ((code - 0xd800) shl 10) + (nextCode - 0xdc00)
+                        action(0xf0 or (codePoint shr 18))
+                        action(0x80 or ((codePoint shr 12) and 0x3f))
+                        action(0x80 or ((codePoint shr 6) and 0x3f))
+                        action(0x80 or (codePoint and 0x3f))
+                        index += 1
+                    } else {
+                        emitMalformedSurrogateReplacement(action)
+                    }
+                }
+                code in 0xdc00..0xdfff -> emitMalformedSurrogateReplacement(action)
+                else -> {
+                    action(0xe0 or (code shr 12))
+                    action(0x80 or ((code shr 6) and 0x3f))
+                    action(0x80 or (code and 0x3f))
+                }
+            }
+            index += 1
+        }
+    }
+
+    private inline fun emitMalformedSurrogateReplacement(action: (Int) -> Unit) {
+        action(0x3f)
     }
 
     private fun ByteArray.getLittleEndianUInt(index: Int): UInt {
