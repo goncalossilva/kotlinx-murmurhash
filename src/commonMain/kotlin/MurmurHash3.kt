@@ -1,6 +1,11 @@
 package com.goncalossilva.murmurhash
 
 public class MurmurHash3(private val seed: UInt = 0u) {
+    /**
+     * Hashes the UTF-8 bytes of [key].
+     */
+    public fun hash32x86(key: String): UInt = hash32x86(key.encodeToByteArray())
+
     public fun hash32x86(key: ByteArray): UInt {
         var h = seed
         val len = key.size
@@ -34,6 +39,11 @@ public class MurmurHash3(private val seed: UInt = 0u) {
 
         return h
     }
+
+    /**
+     * Hashes the UTF-8 bytes of [key].
+     */
+    public fun hash128x86(key: String): Array<UInt> = hash128x86(key.encodeToByteArray())
 
     public fun hash128x86(key: ByteArray): Array<UInt> {
         var h1 = seed
@@ -152,6 +162,11 @@ public class MurmurHash3(private val seed: UInt = 0u) {
 
         return arrayOf(h1, h2, h3, h4)
     }
+
+    /**
+     * Hashes the UTF-8 bytes of [key].
+     */
+    public fun hash128x64(key: String): Array<ULong> = hash128x64(key.encodeToByteArray())
 
     public fun hash128x64(key: ByteArray): Array<ULong> {
         var h1 = seed.toULong()

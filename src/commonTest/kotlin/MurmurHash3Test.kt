@@ -42,6 +42,14 @@ class MurmurHash3Test {
     }
 
     @Test
+    fun hash32x86Strings() {
+        val murmurHash3 = MurmurHash3(seed = wordSeed)
+        stringKeys.forEach { key ->
+            assertEquals(murmurHash3.hash32x86(key.encodeToByteArray()), murmurHash3.hash32x86(key), key)
+        }
+    }
+
+    @Test
     fun hash128x86Words() {
         val murmurHash3 = MurmurHash3(seed = wordSeed)
         words.zip(wordResults128x86).forEach { (word,  hash) ->
@@ -92,6 +100,14 @@ class MurmurHash3Test {
             arrayOf(2555447758u, 3219187397u, 3517270604u, 2719628846u),
         ).forEachIndexed { i, result ->
             assertContentEquals(result, murmurHash3.hash128x86(randomBytes.copyOf(i)))
+        }
+    }
+
+    @Test
+    fun hash128x86Strings() {
+        val murmurHash3 = MurmurHash3(seed = wordSeed)
+        stringKeys.forEach { key ->
+            assertContentEquals(murmurHash3.hash128x86(key.encodeToByteArray()), murmurHash3.hash128x86(key), key)
         }
     }
 
@@ -149,6 +165,14 @@ class MurmurHash3Test {
         }
     }
 
+    @Test
+    fun hash128x64Strings() {
+        val murmurHash3 = MurmurHash3(seed = wordSeed)
+        stringKeys.forEach { key ->
+            assertContentEquals(murmurHash3.hash128x64(key.encodeToByteArray()), murmurHash3.hash128x64(key), key)
+        }
+    }
+
     companion object {
         /**
          * English wordlist from sangupta/murmur:
@@ -159,6 +183,17 @@ class MurmurHash3Test {
         }
 
         private val wordSeed = 0x7f3a21eau
+
+        private val stringKeys = listOf(
+            "",
+            "ascii",
+            "MurmurHash3",
+            "Olá, mundo",
+            "こんにちは世界",
+            "emoji: 👋🌍",
+            "unpaired high surrogate: \uD800",
+            "unpaired low surrogate: \uDC00"
+        )
 
         /**
          * Hashes computed by the canonical C++ implementation with the seed above:
