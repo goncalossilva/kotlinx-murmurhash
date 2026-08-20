@@ -36,8 +36,10 @@ Use the provided `MurmurHash*` classes and `hash*` hashing functions.
 ## Example
 
 ```kotlin
-MurmurHash3().hash32x86(string.encodeToByteArray())
+MurmurHash3().hash32x86(string)
 ```
+
+String inputs are hashed as UTF-8 without materializing an intermediate `ByteArray`. Malformed UTF-16 sequences are replaced with the Unicode replacement character (`U+FFFD`). To use a different encoding, pass a `ByteArray` instead.
 
 ## Contributing
 
