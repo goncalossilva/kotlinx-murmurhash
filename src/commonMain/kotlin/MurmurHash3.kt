@@ -2,7 +2,7 @@ package com.goncalossilva.murmurhash
 
 public class MurmurHash3(private val seed: UInt = 0u) {
     /**
-     * Hashes [key] as UTF-8 without materializing an intermediate [ByteArray].
+     * Hashes [key] as UTF-8 without allocating an intermediate [ByteArray].
      * Malformed UTF-16 sequences are replaced with the Unicode replacement character (`U+FFFD`).
      */
     public fun hash32x86(key: String): UInt {
@@ -71,7 +71,7 @@ public class MurmurHash3(private val seed: UInt = 0u) {
     }
 
     /**
-     * Hashes [key] as UTF-8 without materializing an intermediate [ByteArray].
+     * Hashes [key] as UTF-8 without allocating an intermediate [ByteArray].
      * Malformed UTF-16 sequences are replaced with the Unicode replacement character (`U+FFFD`).
      */
     public fun hash128x86(key: String): Array<UInt> {
@@ -285,7 +285,7 @@ public class MurmurHash3(private val seed: UInt = 0u) {
     }
 
     /**
-     * Hashes [key] as UTF-8 without materializing an intermediate [ByteArray].
+     * Hashes [key] as UTF-8 without allocating an intermediate [ByteArray].
      * Malformed UTF-16 sequences are replaced with the Unicode replacement character (`U+FFFD`).
      */
     public fun hash128x64(key: String): Array<ULong> {

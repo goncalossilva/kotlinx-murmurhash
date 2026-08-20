@@ -39,7 +39,12 @@ Use the provided `MurmurHash*` classes and `hash*` hashing functions.
 MurmurHash3().hash32x86(string)
 ```
 
-String inputs are hashed as UTF-8 without materializing an intermediate `ByteArray`. Malformed UTF-16 sequences are replaced with the Unicode replacement character (`U+FFFD`). To use a different encoding, pass a `ByteArray` instead.
+## String inputs
+
+The `String` overloads hash the input as UTF-8 without allocating an intermediate `ByteArray`.
+
+- **Malformed UTF-16:** Malformed sequences are replaced with the Unicode replacement character (`U+FFFD`).
+- **Other encodings:** Encode the string explicitly, then pass the result to the corresponding `ByteArray` overload.
 
 ## Contributing
 
