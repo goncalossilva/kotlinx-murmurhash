@@ -33,7 +33,7 @@ kotlin {
 
 Use the provided `MurmurHash*` classes and `hash*` hashing functions.
 
-## Examples
+### Examples
 
 Hash bytes directly:
 
@@ -47,7 +47,7 @@ For UTF-8 strings, use the allocation-free overload:
 MurmurHash3().hash32x86(string)
 ```
 
-## String inputs
+### String inputs
 
 The `String` overloads encode the input as UTF-8 while hashing, without allocating an intermediate `ByteArray`. To use another encoding, encode the string explicitly and pass the resulting bytes to the corresponding `ByteArray` overload.
 
