@@ -41,7 +41,7 @@ Hash bytes directly:
 MurmurHash3().hash32x86(bytes)
 ```
 
-For UTF-8 strings, use the convenience overload:
+For UTF-8 strings, use the allocation-free overload:
 
 ```kotlin
 MurmurHash3().hash32x86(string)
@@ -49,11 +49,9 @@ MurmurHash3().hash32x86(string)
 
 ## String inputs
 
-The `String` overloads encode the input as UTF-8 while hashing, without allocating an intermediate `ByteArray`.
+The `String` overloads encode the input as UTF-8 while hashing, without allocating an intermediate `ByteArray`. To use another encoding, encode the string explicitly and pass the resulting bytes to the corresponding `ByteArray` overload.
 
-To use another encoding, encode the string explicitly and pass the resulting bytes to the corresponding `ByteArray` overload.
-
-Unpaired UTF-16 surrogates are encoded as the Unicode replacement character (`U+FFFD`).
+Note: Unpaired UTF-16 surrogates are encoded as the Unicode replacement character (`U+FFFD`).
 
 ## Contributing
 
