@@ -42,6 +42,18 @@ class MurmurHash3Test {
     }
 
     @Test
+    fun hash32x86Strings() {
+        val murmurHash3 = MurmurHash3(seed = wordSeed)
+        wellFormedStringKeys.forEach { key ->
+            assertEquals(
+                murmurHash3.hash32x86(key.encodeToByteArray()),
+                murmurHash3.hash32x86(key),
+                key
+            )
+        }
+    }
+
+    @Test
     fun hash128x86Words() {
         val murmurHash3 = MurmurHash3(seed = wordSeed)
         words.zip(wordResults128x86).forEach { (word,  hash) ->
@@ -92,6 +104,18 @@ class MurmurHash3Test {
             arrayOf(2555447758u, 3219187397u, 3517270604u, 2719628846u),
         ).forEachIndexed { i, result ->
             assertContentEquals(result, murmurHash3.hash128x86(randomBytes.copyOf(i)))
+        }
+    }
+
+    @Test
+    fun hash128x86Strings() {
+        val murmurHash3 = MurmurHash3(seed = wordSeed)
+        wellFormedStringKeys.forEach { key ->
+            assertContentEquals(
+                murmurHash3.hash128x86(key.encodeToByteArray()),
+                murmurHash3.hash128x86(key),
+                key
+            )
         }
     }
 
@@ -149,6 +173,29 @@ class MurmurHash3Test {
         }
     }
 
+    @Test
+    fun hash128x64Strings() {
+        val murmurHash3 = MurmurHash3(seed = wordSeed)
+        wellFormedStringKeys.forEach { key ->
+            assertContentEquals(
+                murmurHash3.hash128x64(key.encodeToByteArray()),
+                murmurHash3.hash128x64(key),
+                key
+            )
+        }
+    }
+
+    @Test
+    fun hashStringsWithMalformedSurrogates() {
+        val murmurHash3 = MurmurHash3(seed = wordSeed)
+        malformedStringKeys.forEach { (key, normalizedKey) ->
+            val utf8Bytes = normalizedKey.encodeToByteArray()
+            assertEquals(murmurHash3.hash32x86(utf8Bytes), murmurHash3.hash32x86(key), key)
+            assertContentEquals(murmurHash3.hash128x86(utf8Bytes), murmurHash3.hash128x86(key), key)
+            assertContentEquals(murmurHash3.hash128x64(utf8Bytes), murmurHash3.hash128x64(key), key)
+        }
+    }
+
     companion object {
         /**
          * English wordlist from sangupta/murmur:
@@ -159,6 +206,30 @@ class MurmurHash3Test {
         }
 
         private val wordSeed = 0x7f3a21eau
+
+        private val wellFormedStringKeys = (0..32).map { "a".repeat(it) } + listOf(
+            "MurmurHash3",
+            "Olá, mundo",
+            "こんにちは世界",
+            "emoji: 👋🌍",
+            "\u0000\u007F",
+            "\u0080\u07FF",
+            "\u0800\uD7FF",
+            "\uE000\uFFFF",
+            "\uD800\uDC00",
+            "\uDBFF\uDFFF"
+        )
+
+        private val malformedStringKeys = listOf(
+            "\uD800" to "\uFFFD",
+            "\uDC00" to "\uFFFD",
+            "\uD800\uD800" to "\uFFFD\uFFFD",
+            "\uDC00\uDC00" to "\uFFFD\uFFFD",
+            "\uD800\uD800\uDC00" to "\uFFFD\uD800\uDC00",
+            "\uDC00\uD800\uDC00" to "\uFFFD\uD800\uDC00",
+            "abcdefghijklmno\uD800" to "abcdefghijklmno\uFFFD",
+            "a\uD800b\uDC00c" to "a\uFFFDb\uFFFDc"
+        )
 
         /**
          * Hashes computed by the canonical C++ implementation with the seed above:

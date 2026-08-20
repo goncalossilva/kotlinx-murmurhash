@@ -33,11 +33,25 @@ kotlin {
 
 Use the provided `MurmurHash*` classes and `hash*` hashing functions.
 
-## Example
+## Examples
+
+Hash bytes directly:
 
 ```kotlin
-MurmurHash3().hash32x86(string.encodeToByteArray())
+MurmurHash3().hash32x86(bytes)
 ```
+
+For UTF-8 strings, use the allocation-free overload:
+
+```kotlin
+MurmurHash3().hash32x86(string)
+```
+
+## String inputs
+
+The `String` overloads encode the input as UTF-8 while hashing, without allocating an intermediate `ByteArray`. To use another encoding, encode the string explicitly and pass the resulting bytes to the corresponding `ByteArray` overload.
+
+Note: Unpaired UTF-16 surrogates are encoded as the Unicode replacement character (`U+FFFD`).
 
 ## Contributing
 

@@ -4,6 +4,10 @@ Notable changes are documented in this file, whose format follows [Keep a Change
 
 ## [Unreleased]
 
+### Added
+
+- Support for hashing UTF-8 `String` inputs without an intermediate `ByteArray`. (#155)
+
 ## [0.4.2] - 2025-12-17
 
 ### Added
