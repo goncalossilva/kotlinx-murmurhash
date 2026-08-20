@@ -3,7 +3,8 @@ package com.goncalossilva.murmurhash
 public class MurmurHash3(private val seed: UInt = 0u) {
     /**
      * Hashes [key] as UTF-8 without allocating an intermediate [ByteArray].
-     * Malformed UTF-16 sequences are replaced with the Unicode replacement character (`U+FFFD`).
+     *
+     * Unpaired UTF-16 surrogates in [key] are encoded as the Unicode replacement character (`U+FFFD`).
      */
     public fun hash32x86(key: String): UInt {
         var h = seed
@@ -72,7 +73,8 @@ public class MurmurHash3(private val seed: UInt = 0u) {
 
     /**
      * Hashes [key] as UTF-8 without allocating an intermediate [ByteArray].
-     * Malformed UTF-16 sequences are replaced with the Unicode replacement character (`U+FFFD`).
+     *
+     * Unpaired UTF-16 surrogates in [key] are encoded as the Unicode replacement character (`U+FFFD`).
      */
     public fun hash128x86(key: String): Array<UInt> {
         var h1 = seed
@@ -286,7 +288,8 @@ public class MurmurHash3(private val seed: UInt = 0u) {
 
     /**
      * Hashes [key] as UTF-8 without allocating an intermediate [ByteArray].
-     * Malformed UTF-16 sequences are replaced with the Unicode replacement character (`U+FFFD`).
+     *
+     * Unpaired UTF-16 surrogates in [key] are encoded as the Unicode replacement character (`U+FFFD`).
      */
     public fun hash128x64(key: String): Array<ULong> {
         var h1 = seed.toULong()
