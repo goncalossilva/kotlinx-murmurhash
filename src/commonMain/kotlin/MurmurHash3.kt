@@ -437,40 +437,55 @@ public class MurmurHash3(private val seed: UInt = 0u) {
         var index = 0
         while (index < length) {
             val code = this[index].code
+            val codePoint = if (code in 0xd800..0xdbff) {
+                val nextCode = if (index + 1 < length) this[index + 1].code else -1
+                if (nextCode in 0xdc00..0xdfff) {
+                    index += 1
+                    0x10000 + ((code - 0xd800) shl 10) + (nextCode - 0xdc00)
+                } else {
+                    REPLACEMENT_CODE_POINT
+                }
+            } else if (code in 0xdc00..0xdfff) {
+                REPLACEMENT_CODE_POINT
+            } else {
+                code
+            }
+
+            var packedBytes: Int
+            val byteCount: Int
             when {
-                code < 0x80 -> action(code)
-                code < 0x800 -> {
-                    action(0xc0 or (code shr 6))
-                    action(0x80 or (code and 0x3f))
+                codePoint < 0x80 -> {
+                    packedBytes = codePoint
+                    byteCount = 1
                 }
-                code in 0xd800..0xdbff -> {
-                    val nextCode = if (index + 1 < length) this[index + 1].code else -1
-                    if (nextCode in 0xdc00..0xdfff) {
-                        val codePoint = 0x10000 + ((code - 0xd800) shl 10) + (nextCode - 0xdc00)
-                        action(0xf0 or (codePoint shr 18))
-                        action(0x80 or ((codePoint shr 12) and 0x3f))
-                        action(0x80 or ((codePoint shr 6) and 0x3f))
-                        action(0x80 or (codePoint and 0x3f))
-                        index += 1
-                    } else {
-                        emitMalformedSurrogateReplacement(action)
-                    }
+                codePoint < 0x800 -> {
+                    packedBytes = (0xc0 or (codePoint shr 6)) or
+                        ((0x80 or (codePoint and 0x3f)) shl 8)
+                    byteCount = 2
                 }
-                code in 0xdc00..0xdfff -> emitMalformedSurrogateReplacement(action)
+                codePoint < 0x10000 -> {
+                    packedBytes = (0xe0 or (codePoint shr 12)) or
+                        ((0x80 or ((codePoint shr 6) and 0x3f)) shl 8) or
+                        ((0x80 or (codePoint and 0x3f)) shl 16)
+                    byteCount = 3
+                }
                 else -> {
-                    action(0xe0 or (code shr 12))
-                    action(0x80 or ((code shr 6) and 0x3f))
-                    action(0x80 or (code and 0x3f))
+                    packedBytes = (0xf0 or (codePoint shr 18)) or
+                        ((0x80 or ((codePoint shr 12) and 0x3f)) shl 8) or
+                        ((0x80 or ((codePoint shr 6) and 0x3f)) shl 16) or
+                        ((0x80 or (codePoint and 0x3f)) shl 24)
+                    byteCount = 4
                 }
+            }
+
+            var byteIndex = 0
+            while (byteIndex < byteCount) {
+                action(packedBytes and 0xff)
+                packedBytes = packedBytes ushr 8
+                byteIndex += 1
             }
             index += 1
         }
-    }
-
-    private inline fun emitMalformedSurrogateReplacement(action: (Int) -> Unit) {
-        action(0xef)
-        action(0xbf)
-        action(0xbd)
     }
 
     private fun ByteArray.getLittleEndianUInt(index: Int): UInt {
@@ -532,6 +547,8 @@ public class MurmurHash3(private val seed: UInt = 0u) {
     private fun ByteArray.getULong(index: Int) = get(index).toUByte().toULong()
 
     private companion object {
+        private const val REPLACEMENT_CODE_POINT: Int = 0xfffd
+
         private const val C1_32: UInt = 0xcc9e2d51u
         private const val C2_32: UInt = 0x1b873593u
 
