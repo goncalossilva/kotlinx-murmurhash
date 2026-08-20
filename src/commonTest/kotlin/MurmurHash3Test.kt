@@ -190,9 +190,9 @@ class MurmurHash3Test {
         val murmurHash3 = MurmurHash3(seed = wordSeed)
         malformedStringKeys.forEach { (key, normalizedKey) ->
             val utf8Bytes = normalizedKey.encodeToByteArray()
-            assertEquals(murmurHash3.hash32x86(utf8Bytes), murmurHash3.hash32x86(key))
-            assertContentEquals(murmurHash3.hash128x86(utf8Bytes), murmurHash3.hash128x86(key))
-            assertContentEquals(murmurHash3.hash128x64(utf8Bytes), murmurHash3.hash128x64(key))
+            assertEquals(murmurHash3.hash32x86(utf8Bytes), murmurHash3.hash32x86(key), key)
+            assertContentEquals(murmurHash3.hash128x86(utf8Bytes), murmurHash3.hash128x86(key), key)
+            assertContentEquals(murmurHash3.hash128x64(utf8Bytes), murmurHash3.hash128x64(key), key)
         }
     }
 
