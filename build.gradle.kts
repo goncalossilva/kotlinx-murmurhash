@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec
 plugins {
     kotlin("multiplatform") version "2.4.10"
 
-    id("com.goncalossilva.resources") version "0.15.0"
+    id("com.goncalossilva.resources") version "0.16.0"
     id("com.goncalossilva.useanybrowser") version "0.5.0"
 
     id("maven-publish")
@@ -87,7 +87,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("com.goncalossilva:resources:0.15.0")
+                implementation("com.goncalossilva:resources:0.16.0")
             }
         }
     }
